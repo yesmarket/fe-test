@@ -12,6 +12,12 @@ app.get('/', (req, res) => {
    res.send('hello world');
 });
 
+app.post('/notification', (req,res) => {
+   var token=req.body.token;
+   console.log(`token = ${token}`);
+   res.status(200).end();
+ });
+
 app.listen(3000, () => {
    console.log(`App listening on port ${port}!`);
 });

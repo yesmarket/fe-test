@@ -4,29 +4,36 @@
    "description": "testing various front end scenarios - react/express stack",
    "main": "app.js",
    "scripts": {
-      "build": "webpack --config webpack.config.js",
-      "start_client": "webpack-dev-server --config webpack.config.js",
+      "build": "webpack --config webpack.config.js --mode development",
+      "start_client": "webpack-dev-server --config webpack.config.js --mode development",
       "start_server": "nodemon app.js",
       "start": "npm-run-all -p start_client start_server"
    },
    "author": "Ryan Bartsch",
    "license": "ISC",
    "dependencies": {
+      "axios": "^0.18.0",
       "body-parser": "^1.18.3",
+      "bootstrap": "^4.3.1",
       "cors": "^2.8.5",
       "dotenv": "^6.2.0",
       "express": "^4.16.4",
+      "firebase": "^5.8.3",
       "react": "^16.8.1",
+      "react-bootstrap": "^1.0.0-beta.5",
       "react-dom": "^16.8.1"
    },
    "devDependencies": {
       "babel-core": "^6.26.3",
       "babel-loader": "^7.1.5",
+      "babel-preset-es2015": "^6.24.1",
       "babel-preset-react": "^6.24.1",
+      "babel-preset-stage-0": "^6.24.1",
       "clean-webpack-plugin": "^1.0.1",
       "html-webpack-plugin": "^3.2.0",
       "nodemon": "^1.18.10",
       "npm-run-all": "^4.1.5",
+      "serviceworker-webpack-plugin": "^1.0.1",
       "webpack": "^4.29.3",
       "webpack-cli": "^3.2.3",
       "webpack-dev-server": "^3.1.14"
