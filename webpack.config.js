@@ -4,6 +4,7 @@ const path = require('path');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
 const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
+const combineLoaders = require('webpack-combine-loaders');
 
 const config = () => {
 
@@ -44,6 +45,21 @@ const config = () => {
                ],
                exclude: /node_modules/
             },
+            {
+               test: /\.css$/,
+               loader: combineLoaders([
+                 {
+                   loader: 'style-loader'
+                 },
+                 {
+                   loader: 'css-loader',
+                   query: {
+                     modules: true,
+                     localIdentName: '[name]__[local]___[hash:base64:5]'
+                   }
+                 }
+               ])
+             }
          ],
       },
       devServer: {
