@@ -6,7 +6,10 @@ import axios from 'axios';
 export default class FirebaseTest extends React.Component {
    constructor(props) {
       super(props);
-      this.state = {token: null};
+      this.state = {
+         token: null,
+         topic: 'test'
+      };
       var config = {
          apiKey: process.env.FIREBASE_API_KEY,
          authDomain: process.env.FIREBASE_AUTH_DOMAIN,
@@ -17,7 +20,7 @@ export default class FirebaseTest extends React.Component {
        };
       firebase.initializeApp(config);
    }
-   receiveNotifications = () => {
+   getToken = () => {
       var that = this;
       const messaging = firebase.messaging();
       messaging.requestPermission()
@@ -25,20 +28,43 @@ export default class FirebaseTest extends React.Component {
          console.log('Have permission');
          return messaging.getToken();
       })
-      .then(function (t) {
-         console.log(t);
-         that.setState({token: t});
+      .then(function (token) {
+         console.log(token);
+         that.setState({token: token});
       })
       .catch(function (err) {
          console.log(`Error occurred ${err}`);
       });
    }
-   sendNotification = () => {
-      axios.post('/api/notification', {
+   notify = () => {
+      axios.post('/api/notify', {
          token: this.state.token
        })
        .then(function (response) {
-         console.log('Notification sent');
+         console.log(`Notification sent to ${this.state.token}`);
+       })
+       .catch(function (err) {
+         console.log(`Error occurred ${err}`);
+       });
+   }
+   subscribe = () => {
+      axios.post('/api/subscribe', {
+         token: this.state.token,
+         topic: this.state.topic
+       })
+       .then(function (response) {
+         console.log(`Subscribed ${this.state.token} to ${this.state.topic}`);
+       })
+       .catch(function (err) {
+         console.log(`Error occurred ${err}`);
+       });
+   }
+   notifyMany = () => {
+      axios.post('/api/notifyMany', {
+         topic: this.state.topic
+       })
+       .then(function (response) {
+         console.log(`Notification sent to ${this.state.topic}`);
        })
        .catch(function (err) {
          console.log(`Error occurred ${err}`);
@@ -47,7 +73,10 @@ export default class FirebaseTest extends React.Component {
    render() {
       return (
          <div>
-            <Button onClick={this.receiveNotifications}>Click here to receive notifications</Button> <Button onClick={this.sendNotification}>Send notification</Button>
+            <Button onClick={this.getToken}>Get token</Button>
+            <Button onClick={this.notify}>Notify</Button>
+            <Button onClick={this.subscribe}>Subscribe</Button>
+            <Button onClick={this.notifyMany}>Notify subscription</Button>
          </div>
       );
    }
