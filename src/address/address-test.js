@@ -1,7 +1,7 @@
 import React from 'react';
 import Autosuggest from 'react-autosuggest';
 import axios from 'axios';
-import theme from './address-test.css';
+import styles from './address-test.css';
 
 export default class AddressTest extends React.Component {
    constructor(props) {
@@ -29,9 +29,9 @@ export default class AddressTest extends React.Component {
          this.setState({suggestions: []});
       } else {
          var that = this;
-         axios.get(encodeURI(`https://api.edq.com/capture/address/v2/search?query=${value}&country=AUS&take=5&Auth-Token=${process.env.EXPERIAN_AUTH_TOKEN}`))
+         axios.get(encodeURI(`https://devapi.flexigroup.com.au/address/suggestions?query=${value}`), { 'Auth-Token': process.env.EXPERIAN_AUTH_TOKEN })
          .then(function (res) {
-            that.setState({suggestions: res.data.results.map(item => item.suggestion)});
+            that.setState({suggestions: res.data.results.map(item => item.address)});
          });
       }
    };
@@ -48,13 +48,18 @@ export default class AddressTest extends React.Component {
          onChange: this.onChange
       };
       return (
-         <Autosuggest theme={theme}
-            suggestions={suggestions}
-            getSuggestionValue={this.getSuggestionValue}
-            renderSuggestion={this.renderSuggestion}
-            inputProps={inputProps}
-            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-            onSuggestionsClearRequested={this.onSuggestionsClearRequested} />
+         <div className={styles.addresscontainer}>
+            <fieldset>
+               <legend>Address auto-complete testing</legend>
+               <Autosuggest theme={styles}
+                  suggestions={suggestions}
+                  getSuggestionValue={this.getSuggestionValue}
+                  renderSuggestion={this.renderSuggestion}
+                  inputProps={inputProps}
+                  onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                  onSuggestionsClearRequested={this.onSuggestionsClearRequested} />
+            </fieldset>
+         </div>
       );
    }
 }

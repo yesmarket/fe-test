@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
 import firebase from 'firebase';
 import axios from 'axios';
+import styles from './firebase-test.css';
 
 export default class FirebaseTest extends React.Component {
    constructor(props) {
@@ -72,11 +72,14 @@ export default class FirebaseTest extends React.Component {
    }
    render() {
       return (
-         <div>
-            <Button onClick={this.getToken}>Get token</Button>
-            <Button onClick={this.notify}>Notify</Button>
-            <Button onClick={this.subscribe}>Subscribe</Button>
-            <Button onClick={this.notifyMany}>Notify subscription</Button>
+         <div className={styles.container}>
+            <fieldset>
+               <legend>Firebase testing</legend>
+               <button type="button" onClick={this.getToken}>Get token</button>
+               <button type="button" onClick={this.notify}>Notify</button>
+               <button type="button" onClick={this.subscribe}>Subscribe</button>
+               <button type="button" onClick={this.notifyMany}>Notify subscription</button>
+            </fieldset>
          </div>
       );
    }
